@@ -27,9 +27,12 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <Card className="w-full max-w-md p-8 backdrop-blur-xl border-white/20">
-        <div className="flex flex-col items-center mb-8">
+    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-black/60">
+      {/* Background Decorative Elements */}
+      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(212,175,55,0.1),transparent_70%)] pointer-events-none" />
+      
+      <Card className="w-full max-w-md p-6 md:p-8 backdrop-blur-xl border-white/20 relative z-10">
+        <div className="flex flex-col items-center mb-6 md:mb-8">
           <div className="w-16 h-16 bg-[#d4af37]/20 rounded-full flex items-center justify-center mb-4 border border-[#d4af37]/30">
             <LogIn className="w-8 h-8 text-[#d4af37]" />
           </div>

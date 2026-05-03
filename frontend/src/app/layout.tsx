@@ -1,10 +1,11 @@
+import React from 'react';
+import type { Metadata } from 'next';
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
+import Sidebar from "@/components/layout/Sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
-
-import Sidebar from "@/components/layout/Sidebar";
 
 export const metadata: Metadata = {
   title: "Seerah Explorer",
@@ -18,8 +19,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body 
-        className={`${inter.className} h-full flex flex-col md:flex-row overflow-hidden text-[var(--foreground)] bg-black`}
+      <body
+        className={`${inter.className} h-screen flex flex-col md:flex-row overflow-hidden text-[var(--foreground)] bg-black`}
         style={{
           backgroundImage: "url('/background.png')",
           backgroundSize: 'cover',
@@ -29,10 +30,10 @@ export default function RootLayout({
       >
         {/* Dark overlay to ensure text readability */}
         <div className="absolute inset-0 bg-black/40 pointer-events-none -z-10" />
-        
+
         <AuthProvider>
           <Sidebar />
-          <main className="flex-1 overflow-y-auto h-full relative z-0 pb-16 md:pb-0">
+          <main className="flex-1 overflow-y-auto h-full relative z-0 pb-20 md:pb-0">
             {children}
           </main>
         </AuthProvider>

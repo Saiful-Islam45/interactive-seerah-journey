@@ -24,10 +24,10 @@ export default function AIAssistantWidget() {
           </button>
         </div>
         
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar bg-black/20">
+        <div className="flex-1 overflow-y-auto p-3 md:p-4 space-y-4 custom-scrollbar bg-black/20 max-h-[300px] md:max-h-none">
           {/* User Message */}
           <div className="flex justify-end">
-            <div className="bg-[#2e4f4f] text-[#e5e1d8] text-sm py-2 px-4 rounded-l-lg rounded-tr-lg max-w-[80%] shadow-lg">
+            <div className="bg-[#2e4f4f] text-[#e5e1d8] text-sm py-2 px-3 md:px-4 rounded-l-lg rounded-tr-lg max-w-[85%] md:max-w-[80%] shadow-lg">
               What was the significance of the Hijrah?
             </div>
           </div>
