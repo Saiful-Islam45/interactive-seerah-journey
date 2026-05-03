@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { 
   Home, 
@@ -10,12 +12,19 @@ import {
   Bookmark, 
   Settings,
   Clock,
-  User,
-  Star
+  User as UserIcon,
+  Star,
+  LogOut,
+  LogIn,
+  UserPlus,
+  ShieldCheck
 } from 'lucide-react';
 import Link from 'next/link';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Sidebar() {
+  const { user, isAuthenticated, logout } = useAuth();
+  
   const navItems = [
     { name: 'Home', icon: Home, active: true, href: '/' },
     { name: 'Timeline', icon: Clock, href: '#' },
@@ -61,20 +70,67 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      {/* User Profile (Hidden on mobile) */}
-      <div className="hidden md:block mt-4 pt-4 border-t border-white/10 shrink-0">
-        <div className="flex items-center justify-between px-2 py-2 hover:bg-white/5 rounded-lg cursor-pointer transition-colors">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-[#3a6363] flex items-center justify-center overflow-hidden">
-              <User className="w-5 h-5 text-[#e5e1d8]" />
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-[#e5e1d8]">Ahmed</p>
-              <p className="text-xs text-[#d4af37]">Explorer</p>
-            </div>
+      {/* Auth / Profile Area */}
+      <div className="mt-4 pt-4 border-t border-white/10 shrink-0 w-full md:w-auto">
+        {!isAuthenticated ? (
+          <div className="hidden md:flex flex-col gap-2">
+            <Link 
+              href="/login" 
+              className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#e5e1d8] hover:bg-white/5 transition-all group"
+            >
+              <LogIn className="w-5 h-5 text-[#d4af37] group-hover:scale-110 transition-transform" />
+              <span className="text-sm font-medium">Sign In</span>
+            </Link>
+            <Link 
+              href="/register" 
+              className="flex items-center gap-3 px-4 py-2.5 rounded-lg bg-[#d4af37] text-black hover:bg-[#b8962d] transition-all group"
+            >
+              <UserPlus className="w-5 h-5 group-hover:scale-110 transition-transform" />
+              <span className="text-sm font-bold">Join Journey</span>
+            </Link>
           </div>
-          <Settings className="w-4 h-4 text-[#9a9388]" />
-        </div>
+        ) : (
+          <div className="hidden md:flex items-center justify-between px-2 py-2 hover:bg-white/5 rounded-lg group cursor-pointer transition-colors">
+            <div className="flex items-center gap-3">
+              <div className={`w-9 h-9 rounded-full flex items-center justify-center overflow-hidden border-2 ${
+                user?.subscription_tier === 'PREMIUM' ? 'border-[#d4af37] bg-[#d4af37]/10' : 'border-[#3a6363] bg-[#3a6363]'
+              }`}>
+                <UserIcon className={`w-5 h-5 ${user?.subscription_tier === 'PREMIUM' ? 'text-[#d4af37]' : 'text-[#e5e1d8]'}`} />
+              </div>
+              <div className="max-w-[100px]">
+                <p className="text-sm font-semibold text-[#e5e1d8] truncate">
+                  {user?.first_name || 'Explorer'}
+                </p>
+                <div className="flex items-center gap-1">
+                  {user?.role === 'ADMIN' && <ShieldCheck className="w-3 h-3 text-[#d4af37]" />}
+                  <p className={`text-[10px] uppercase tracking-wider font-bold ${
+                    user?.subscription_tier === 'PREMIUM' ? 'text-[#d4af37]' : 'text-[#9a9388]'
+                  }`}>
+                    {user?.subscription_tier === 'PREMIUM' ? 'Premium' : user?.role.toLowerCase()}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <button 
+              onClick={logout}
+              className="p-2 text-[#9a9388] hover:text-red-400 transition-colors"
+              title="Logout"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+
+        {/* Mobile Auth Icon */}
+        {!isAuthenticated ? (
+          <Link href="/login" className="md:hidden p-2 text-[#9a9388]">
+            <LogIn className="w-6 h-6" />
+          </Link>
+        ) : (
+          <button onClick={logout} className="md:hidden p-2 text-[#9a9388]">
+            <LogOut className="w-6 h-6" />
+          </button>
+        )}
       </div>
     </div>
   );
